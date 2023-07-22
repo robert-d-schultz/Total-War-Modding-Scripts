@@ -3,6 +3,8 @@ A collection of python scripts I write for my Total War Modding.
 
 Some of these will be contained in a .blend file, opened in Blender.
 
+I'll also add some 010 Editor templates I've created.
+
 
 ## Prefab bmd file to Terry layer file.py
 
@@ -20,12 +22,12 @@ This might be missing a few things, but whatever is missing is very hard to noti
 
 ## global props bin.bt
 
-A template for use in 010 editor, a hex editor.
+A template for use in 010 editor.
 
 
 ## prefab_bmd.bt
 
-A template for use in 010 editor, a hex editor.
+A template for use in 010 editor.
 
 
 ## S2TW_animation_import_export.blend 
