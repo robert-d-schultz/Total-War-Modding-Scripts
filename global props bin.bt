@@ -1,0 +1,354 @@
+
+typedef struct {
+    byte cult_mask_base : 1;
+    byte  : 5;
+    byte cult_mask_bst : 1;
+    byte cult_mask_brt : 1;
+
+    byte cult_mask_chs : 1;
+    byte cult_mask_dwf : 1;
+    byte cult_mask_emp : 1;
+    byte cult_mask_grn : 1;
+    byte cult_mask_vmp : 1;
+    byte cult_mask_wef : 1;
+    byte  : 2;
+
+    byte  : 1;
+    byte cult_mask_def : 1;
+    byte cult_mask_hef : 1;
+    byte cult_mask_lzd : 1;
+    byte cult_mask_skv : 1;
+    byte cult_mask_tmb : 1;
+    byte cult_mask_rogue : 1;
+    byte cult_mask_ksl : 1;
+
+    byte cult_mask_ogr : 1;
+    byte cult_mask_cst : 1;
+    byte  : 1;
+    byte cult_mask_kho : 1;
+    byte cult_mask_tze : 1;
+    byte cult_mask_nur : 1;
+    byte cult_mask_sla : 1;
+    byte cult_mask_dae : 1;
+
+    byte cult_mask_cth : 1;
+    byte cult_mask_nor : 1;
+    byte cult_mask_chd : 1;
+    byte  : 5;
+
+    byte  : 8;
+    byte  : 8;
+    byte  : 8;
+
+} CULTURE_MASK;
+
+typedef struct {
+    float x_value;
+    float y_value;
+    float z_value;
+} COORD;
+
+
+typedef struct {
+    typedef struct {
+        string Entry;
+        uint32 StartOffset;
+    } Entry;
+
+    uint32 EntryCount;
+    Entry EntryList[EntryCount] <optimize=false>;
+} HEADER;
+
+typedef struct {
+    typedef struct {
+        uint16 version;
+
+        uint16 BmdStrLength;
+        char bmd_string[BmdStrLength];
+
+        uchar transfomation_matrix_maybe[64];
+
+        uchar seasons_maybe[4];
+
+        CULTURE_MASK culture_mask;
+
+        uint16 RegionStrLength;
+        char region_string[RegionStrLength];
+
+        uint16 BhmClassicLength;
+        char BhmClassic[BhmClassicLength];
+
+        uchar more_data[8];
+    } BmdInfo;
+
+    typedef struct {
+        uint16 StrLength;
+        char data[StrLength];
+    } String;
+
+    typedef struct {
+        uint16 version;
+        uint32 PropIndex;
+        uchar transform_matrix[36];
+        uchar pos_coords[12];
+
+        byte is_decal;
+        uchar booleans[16];
+
+        uint32 number_maybe;
+        uchar booleans_maybe[4];
+        byte visible_in_tactical;
+        byte only_visible_in_tactical;
+        byte visible_in_shroud;
+        byte apply_to_terrain;
+        byte apply_to_props_or_receive_decal;
+        byte render_above_snow;
+
+        uint16 BhmClassicLength;
+        char BhmClassic[BhmClassicLength];
+
+        uchar more_booleans[9];
+        byte no_culling;
+        byte apply_height_patch1;
+        byte apply_height_patch2;
+        uchar more_booleans2[4];
+
+    } PropInfo;
+
+    typedef struct {
+        uint16 version;
+
+        uint16 VfxStrLength;
+        char vfx_string[VfxStrLength];
+
+        uchar transform_matrix[36];
+        uchar pos_coords[12];
+
+        uchar booleans[6];
+        uint32 number_maybe;
+        uchar more_booleans[6];
+
+        uint16 BhmClassicLength;
+        char BhmClassic[BhmClassicLength];
+
+        uchar more_data[9];
+        byte visible_in_shroud;
+        int32 another_number_maybe;
+        byte NOT_only_visible_in_shroud;
+    } VfxInfo;
+
+    typedef struct {
+        uint16 version;
+
+        COORD position;
+
+        float OuterRadius;
+        float InnerRadius;
+
+        byte some_zero;
+        byte primary;
+
+        uint16 BhmClassicLength;
+        char BhmClassic[BhmClassicLength];
+
+    } LightProbeInfo;
+
+    typedef struct {
+        uint16 version;
+
+        COORD first_vert;
+        COORD second_vert;
+        COORD third_vert;
+
+        uint16 BhmClassicLength;
+        char BhmClassic[BhmClassicLength];
+
+        uchar booleans[10];
+    } TerrainHoleTriangleInfo;
+
+    typedef struct {
+        uint16 version;
+
+        COORD Position;
+        float Radius;
+        float Red;
+        float Green;
+        float Blue;
+        float ColorScale;
+
+        byte AnimationTypeEnum;
+        float AnimationSpeedScale1;
+        float AnimationSpeedScale2;
+        float ColorMin;
+        float RandomOffset;
+
+        uint16 WPLFTTypeLength;
+        char WPLFTType[WPLFTTypeLength];
+
+        byte some_zero;
+
+        uint16 BhmClassicLength;
+        char BhmClassic[BhmClassicLength];
+
+        byte for_light_probe_only;
+        uchar more_data[18];
+    } PointLightInfo;
+
+    typedef struct {
+        uint16 version;
+
+        uint32 VertexListLength <hidden=true>;
+        COORD VertexList[VertexListLength];
+
+        uint32 TriangleListLength <hidden=true>;
+        uint16 TriangleList[TriangleListLength];
+
+        uint16 MaterialStrLength <hidden=true>;
+        char material_string[MaterialStrLength];
+
+        uint16 BhmClassicLength <hidden=true>;
+        char BhmClassic[BhmClassicLength];
+
+        uchar more_data[8];
+        byte visible_in_tactical;
+        byte only_visible_in_tactical;
+        
+        if (version == 4)
+        {
+            uchar transform_matrix[36];
+            uchar pos_coords[12];
+            uchar booleans[4];
+            byte visible_in_shroud;
+            uchar more_booleans[1];
+        }
+
+    } PolyMeshInfo;
+
+    typedef struct {
+        uint16 version;
+
+        COORD Position;
+        float QuartX;
+        float QuartY;
+        float QuartZ;
+        float QuartW;
+        float Length;
+        float InnerAngleRadians;
+        float OuterAngleRadians;
+        float IntensityRed;
+        float IntensityGreen;
+        float IntensityBlue;
+        float Falloff;
+        uint16 GoboLength <hidden=true>;
+        char Gobo[GoboLength];
+        byte Volumetric;
+
+        uint16 BhmClassicLength <hidden=true>;
+        char BhmClassic[BhmClassicLength];
+
+        uchar more_data[18];
+
+    } SpotLightInfo;
+
+    typedef struct {
+        uint16 version;
+
+        uint16 SoundStrLength;
+        char sound_string[SoundStrLength];
+
+        uint16 SSTTypeStrLength;
+        char sst_type_string[SSTTypeStrLength];
+
+        uint32 CoordListLength;
+        COORD CoordList[CoordListLength];
+        uchar zeroes[4];
+        float radius;
+        uchar zeroes2[53];
+
+        uint16 BhmClassicLength;
+        char BhmClassic[BhmClassicLength];
+
+        CULTURE_MASK culture_mask;
+
+        uchar more_data[32];
+
+        uint16 SSSSoundMarkerLength;
+        char SSSSoundMarker[SSSSoundMarkerLength];
+    } SoundInfo;
+
+    typedef struct {
+        uint16 version;
+
+        uchar transform_matrix[36];
+        uchar pos_coords[12];
+
+        uint16 CscStrLength;
+        char csc_string[CscStrLength];
+
+        uint16 BhmClassicLength;
+        char BhmClassic[BhmClassicLength];
+
+        uchar more_data[9];
+        byte visible_in_shroud;
+        uchar more_data2[8];
+    } CscInfo;
+    
+    uint64 FastBin0 <hidden=true>;;
+    uchar data1[40] <hidden=true>;
+    
+    uint32 BmdListLength <hidden=true>;
+    BmdInfo BmdList[BmdListLength] <optimize=false>;
+
+    uchar data2[30] <hidden=true>;
+
+    uint32 PropListLength <hidden=true>;
+    String PropList[PropListLength] <optimize=false>;
+
+    uint32 PropInfoListLength <hidden=true>;
+    PropInfo PropInfoList[PropInfoListLength] <optimize=false>;
+
+    uchar data3[2] <hidden=true>;
+
+    uint32 VfxListLength <hidden=true>;
+    VfxInfo VfxList[VfxListLength] <optimize=false>;
+
+    uchar data4[28] <hidden=true>;
+
+    uint32 LightProbeListLength <hidden=true>;
+    LightProbeInfo LightProbeList[LightProbeListLength] <optimize=false>;
+
+    uchar data5[2]  <hidden=true>;
+
+    uint32 TerrainHoleListLength <hidden=true>;
+    TerrainHoleTriangleInfo TerrainHoleList[TerrainHoleListLength] <optimize=false>;
+
+    uchar data6[2]  <hidden=true>;
+
+    uint32 PointLightListLength <hidden=true>;
+    PointLightInfo PointLightList[PointLightListLength] <optimize=false>;
+
+    uchar data7[33]  <hidden=true>;
+
+    uint32 PolyMeshListLength <hidden=true>;
+    PolyMeshInfo PolyMeshList[PolyMeshListLength] <optimize=false>;
+
+    uchar data8[8]  <hidden=true>;
+
+    uint32 SpotLightListLength <hidden=true>;
+    SpotLightInfo SpotLightList[SpotLightListLength] <optimize=false>;
+
+    uchar data9[2]  <hidden=true>;
+
+    uint32 SoundListLength <hidden=true>;
+    SoundInfo SoundList[SoundListLength] <optimize=false>;
+
+    uchar data10[2]  <hidden=true>;
+
+    uint32 CscListLength <hidden=true>;
+    CscInfo CscList[CscListLength] <optimize=false>;
+
+    uchar data11[40]  <hidden=true>;
+} FASTBIN;
+
+HEADER Header;
+FASTBIN FastBinList[Header.EntryCount] <optimize=false>;
