@@ -9,6 +9,7 @@ I'll also add some 010 Editor templates I've created.
 ## Prefab bmd file to Terry layer file.py
 
 Only tested with Warhammer 3 .bmd,
+
 Input a prefad bmd, it will output an xml file that you can open in Terry
 
 
@@ -33,4 +34,5 @@ A template for use in 010 editor.
 ## S2TW_animation_import_export.blend 
 
 For Shogun 2 Total War
-Reads/displays animations, does not read/display models!
+
+Imports/exports animations, does not read/display models!
