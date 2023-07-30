@@ -10,7 +10,7 @@ I'll also add some 010 Editor templates I've created.
 
 Only tested with Warhammer 3 .bmd,
 
-Input a prefad bmd, it will output an xml file that you can open in Terry
+Input a *campaign* prefab bmd, it will output an xml file that you can open in Terry
 
 
 ## global_props bin file to Terry layers.py
@@ -28,7 +28,7 @@ A template for use in 010 editor.
 
 ## prefab_bmd.bt
 
-A template for use in 010 editor.
+A template for use in 010 editor. Again, this has only been tested with campaign prefabs, like settlements, Battle prebads might have a few things more.
 
 
 ## S2TW_animation_import_export.blend 
