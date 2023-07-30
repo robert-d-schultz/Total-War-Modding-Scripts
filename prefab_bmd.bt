@@ -48,17 +48,6 @@ typedef struct {
     float z_value;
 } COORD;
 
-
-typedef struct {
-    typedef struct {
-        string Entry;
-        uint32 StartOffset;
-    } Entry;
-
-    uint32 EntryCount;
-    Entry EntryList[EntryCount] <optimize=false>;
-} HEADER;
-
 typedef struct {
     typedef struct {
         uint16 version;
@@ -132,12 +121,8 @@ typedef struct {
         uchar pos_coords[12];
 
         uchar booleans[6];
-        uint32 number_maybe;
-        uchar more_booleans[4];
-        if (VfxInfoversion > 10)
-        {
-            uchar more_more_booleans[2];
-        }
+        uint16 lengthUnknownArray;
+        uint16 UnknownArray[lengthUnknownArray];
 
         uint16 BhmClassicLength;
         char BhmClassic[BhmClassicLength];
@@ -207,7 +192,7 @@ typedef struct {
         uchar more_data[8];
         if (PointLightInfoversion > 6)
         {
-            uchar more_data[10];
+            uchar more_data2[10];
         }
     } PointLightInfo;
 
