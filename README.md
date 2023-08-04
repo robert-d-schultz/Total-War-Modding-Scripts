@@ -27,6 +27,8 @@ Use on the three blm_catchments: blm_catchment_override.compressed_map, blm_catc
 
 Transforming the png's back into their .compressed_map state can be done with BOB.
 
+You really shouldn't do this though to edit which battle maps are used for each location, instead use Frodo's Map Replacer Framework.
+
 ## global props bin.bt
 
 A template for use in 010 editor.
