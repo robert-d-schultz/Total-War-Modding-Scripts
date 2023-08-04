@@ -21,6 +21,12 @@ Put the xml layers in your Terry project's folder, and then copy+paste the stuff
 This might be missing a few things, but whatever is missing is very hard to notice when in-game.
 
 
+## battle catchment map to png.py 
+
+Use on the three blm_catchments: blm_catchment_override.compressed_map, blm_catchment_override_settlement_standard.compressed_map, blm_catchment_override_settlement_unfortified.compressed_map
+
+Transforming the png's back into their .compressed_map state can be done with BOB.
+
 ## global props bin.bt
 
 A template for use in 010 editor.
