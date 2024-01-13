@@ -47,7 +47,7 @@ For Shogun 2 Total War
 Imports/exports animations, does not read/display models!
 
 
-## merge_wwise_dialogue_events_v1.py
+## merge_wwise_dialogue_events.py
 
 Where to even begin explaining what this does....
 
