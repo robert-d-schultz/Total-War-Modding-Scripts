@@ -50,7 +50,10 @@ Imports/exports animations, does not read/display models!
 ## merge_wwise_dialogue_events_v1.py
 
 Where to even begin explaining what this does....
+
 To use it, you need to have created a .bnk file using the wwise program. If you only used that .bnk in a mod .pack, it would effectively overwrite all of the vanilla voicelines.
 But, if you run this script, you can then add a bit of stuff from a vanilla .bnk file, and avoid overwriting stuff. The end result is new voicelines.
 
-This script merges-in the decision trees of the (relevent) vanilla Dialogue Events. It merges them into the existing decision trees of your custom .bnk file.
+Again, this does absolutely nothing for you if you don't know how to use Wwwise. Wwise is still doing all the heavy lifting, this script is like a convinience, especially when keeping-up with game updates that will be changing the vanilla bnks.
+
+Slightly more technical explaination: This script merges-in the decision trees of the (relevent) vanilla Dialogue Events. It merges them into the existing decision trees of your custom .bnk file.
