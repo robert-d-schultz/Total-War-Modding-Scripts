@@ -29,6 +29,7 @@ Transforming the png's back into their .compressed_map state can be done with BO
 
 You really shouldn't do this though to edit which battle maps are used for each location, instead use Frodo's Map Replacer Framework.
 
+
 ## global props bin.bt
 
 A template for use in 010 editor.
@@ -44,3 +45,12 @@ A template for use in 010 editor. Again, this has only been tested with campaign
 For Shogun 2 Total War
 
 Imports/exports animations, does not read/display models!
+
+
+## merge_wwise_dialogue_events_v1.py
+
+Where to even begin explaining what this does....
+To use it, you need to have created a .bnk file using the wwise program. If you only used that .bnk in a mod .pack, it would effectively overwrite all of the vanilla voicelines.
+But, if you run this script, you can then add a bit of stuff from a vanilla .bnk file, and avoid overwriting stuff. The end result is new voicelines.
+
+This script merges-in the decision trees of the (relevent) vanilla Dialogue Events. It merges them into the existing decision trees of your custom .bnk file.
