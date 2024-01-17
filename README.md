@@ -49,11 +49,22 @@ Imports/exports animations, does not read/display models!
 
 ## merge_wwise_dialogue_events.py
 
-Where to even begin explaining what this does....
+This is more like a tool kit with four different functions. To use any of this, you need to have created a .bnk file using Wwise's application.
+1. scramble_ids
+   This changes the ids of all non-dialogue event wwise objects in the bnk. This prevents ID collisions, there's a more technical explaination in the script itself.
+   
+2. merge_bnks_together
+   This merges together two bnks, discards all non-dialogue event wwise objects. If the two bnks have a dialogue event with the same ID, it will merge their decision trees together.
+   It's really only useful for making a compatibility mod.
+     
+3. merge_vanilla_decision_trees_into_bnk
+   If you only used your custom .bnk in a mod .pack, it would effectively overwrite all of the vanilla voicelines.
+   But, if you run the "merge_vanilla_decision_trees_into_bnk" function, you can then add a bit of stuff from a vanilla .bnk file, and avoid overwriting stuff. The end result is new voicelines.
 
-To use it, you need to have created a .bnk file using the wwise program. If you only used that .bnk in a mod .pack, it would effectively overwrite all of the vanilla voicelines.
-But, if you run this script, you can then add a bit of stuff from a vanilla .bnk file, and avoid overwriting stuff. The end result is new voicelines.
+   Slightly more technical explaination: This script merges-in the decision trees of the (relevent) vanilla Dialogue Events. It merges them into the existing decision trees of your custom .bnk file.
 
-Again, this does absolutely nothing for you if you don't know how to use Wwwise. Wwise is still doing all the heavy lifting, this script is like a convinience, especially when keeping-up with game updates that will be changing the vanilla bnks.
+4. "replacement_hack"
+   The final bnk final needs to have the audio buses match the IDs of the audio buses used by vanilla. Except there's no way to specify this ID within Wwise's application (except if you know the name of the bus, then Wwise hashes that to get the ID, but there are some buses with an unknown name). So you've got to do a find+replace operation as the last step to fix those.
 
-Slightly more technical explaination: This script merges-in the decision trees of the (relevent) vanilla Dialogue Events. It merges them into the existing decision trees of your custom .bnk file.
+
+Again, this does absolutely nothing for you if you don't know how to use Wwwise. Wwise is still doing all the heavy lifting, this script is like a convenience, especially when keeping-up with game updates that will be changing the vanilla bnks.
