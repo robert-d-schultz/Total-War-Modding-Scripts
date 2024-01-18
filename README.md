@@ -55,7 +55,7 @@ This is more like a tool kit with four different functions. To use any of this, 
    
 2. merge_bnks_together
    This merges together two bnks, discards all non-dialogue event wwise objects. If the two bnks have a dialogue event with the same ID, it will merge their decision trees together.
-   It's really only useful for making a compatibility mod.
+   It's really only useful for making a compatibility mod (This one -> https://steamcommunity.com/sharedfiles/filedetails/?id=3141097337)
      
 3. merge_vanilla_decision_trees_into_bnk
    If you only used your custom .bnk in a mod .pack, it would effectively overwrite all of the vanilla voicelines.
