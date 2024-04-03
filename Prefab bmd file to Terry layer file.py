@@ -10,7 +10,7 @@ import numpy as np
 # Adjust these two things
 
 #input file
-binary_file_path = "C:\\Users\\rob\\Desktop\\prefabs\\campaign\\empire_minor_2.bmd"
+binary_file_path = "C:/path/to/bmd/the_bmd_file.bmd"
 
 #output file
 xml_filepath = "./output.layer"
@@ -89,6 +89,7 @@ with open(binary_file_path, 'rb') as binary_file:
         
         
         #List of paths to RMV2 and wsmodels
+        print("prop types")
         prop_types = []
         num_prop_types = struct.unpack("<L", binary_file.read(4))[0]
         for _ in range(num_prop_types):
@@ -96,11 +97,13 @@ with open(binary_file_path, 'rb') as binary_file:
             prop_type_path = binary_file.read(prop_type_path_length).decode('UTF-8')
             prop_types.append(prop_type_path)
         
- 
+        
         #Prop info
+        print("prop info")
         num_props = struct.unpack("<L", binary_file.read(4))[0]
         for _ in range(num_props):
             version = struct.unpack("<H", binary_file.read(2))[0]
+            print(version)
             
             index = struct.unpack("<L", binary_file.read(4))[0]
             
@@ -128,11 +131,15 @@ with open(binary_file_path, 'rb') as binary_file:
 
             #Booleans
             is_decal = struct.unpack("<B", binary_file.read(1))[0] == 1
-            binary_file.read(24)
+            binary_file.read(16)
+            
+            some_version = struct.unpack("<H", binary_file.read(2))[0]
+            
+            binary_file.read(6)
             
             visible_in_tactical = False
             only_visible_in_tactical = False
-            if (version > 21):
+            if (some_version >= 4):
                 visible_in_tactical = struct.unpack("<B", binary_file.read(1))[0] == 1
                 only_visible_in_tactical = struct.unpack("<B", binary_file.read(1))[0] == 1
                 
@@ -140,9 +147,7 @@ with open(binary_file_path, 'rb') as binary_file:
             apply_to_terrain = struct.unpack("<B", binary_file.read(1))[0] == 1
             apply_to_objects = struct.unpack("<B", binary_file.read(1))[0] == 1
             render_above_snow = struct.unpack("<B", binary_file.read(1))[0] == 1
-            
-            #render_above_snow
-            
+                        
             #Stuff we can skip past for now
             bhm_name_length = struct.unpack("<H", binary_file.read(2))[0]
             bhm_name = binary_file.read(bhm_name_length).decode('UTF-8')
@@ -151,13 +156,13 @@ with open(binary_file_path, 'rb') as binary_file:
             no_culling = False
             if (version > 21):
                 no_culling = struct.unpack("<B", binary_file.read(1))[0] == 1
-                
+
             binary_file.read(6)
 
             
             #Write
             xml_file.write("\n\t\t<entity id=\"" + "1" + ''.join(random.choice("01234567890abcdef") for _ in range(14)) + "\">")
-            
+
             path = prop_types[index]
                             
             if (is_decal):
@@ -183,6 +188,7 @@ with open(binary_file_path, 'rb') as binary_file:
         binary_file.read(2)
         
         #VFX
+        print("vfx")
         num_vfxs = struct.unpack("<L", binary_file.read(4))[0]
         for _ in range(num_vfxs):
             version = struct.unpack("<H", binary_file.read(2))[0]
@@ -213,15 +219,19 @@ with open(binary_file_path, 'rb') as binary_file:
             
             
             #Stuff we can skip past for now
-            binary_file.read(14)
-            if (version > 10):
+            binary_file.read(6)
+            some_version = struct.unpack("<H", binary_file.read(2))[0]
+            binary_file.read(6)
+            if (some_version >= 4):
                 binary_file.read(2)
             bhm_name_length = struct.unpack("<H", binary_file.read(2))[0]
             bhm_name = binary_file.read(bhm_name_length).decode('UTF-8')
             binary_file.read(9)
             visible_in_shroud = struct.unpack("<B", binary_file.read(1))[0] == 1
             binary_file.read(4)
-            visible_in_shroud_only = struct.unpack("<B", binary_file.read(1))[0] == 0
+            visible_in_shroud_only = False
+            if (version > 9):
+                visible_in_shroud_only = struct.unpack("<B", binary_file.read(1))[0] == 0
             
             #Write
             xml_file.write("\n\t\t<entity id=\"" + "1" + ''.join(random.choice("01234567890abcdef") for _ in range(14)) + "\">")
