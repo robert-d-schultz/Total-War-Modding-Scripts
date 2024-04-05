@@ -103,7 +103,6 @@ with open(binary_file_path, 'rb') as binary_file:
         num_props = struct.unpack("<L", binary_file.read(4))[0]
         for _ in range(num_props):
             version = struct.unpack("<H", binary_file.read(2))[0]
-            print(version)
             
             index = struct.unpack("<L", binary_file.read(4))[0]
             
@@ -151,13 +150,17 @@ with open(binary_file_path, 'rb') as binary_file:
             #Stuff we can skip past for now
             bhm_name_length = struct.unpack("<H", binary_file.read(2))[0]
             bhm_name = binary_file.read(bhm_name_length).decode('UTF-8')
-            binary_file.read(9)
+            binary_file.read(8)
             
-            no_culling = False
+            cast_shadow = struct.unpack("<B", binary_file.read(1))[0] == 1
+            no_culling = struct.unpack("<B", binary_file.read(1))[0] == 1
+            has_height_patch = struct.unpack("<B", binary_file.read(1))[0] == 1
+            apply_height_patch = struct.unpack("<B", binary_file.read(1))[0] == 1
+            binary_file.read(1)
+            if (version > 19):
+                binary_file.read(1)
             if (version > 21):
-                no_culling = struct.unpack("<B", binary_file.read(1))[0] == 1
-
-            binary_file.read(6)
+                binary_file.read(2)
 
             
             #Write
@@ -188,7 +191,7 @@ with open(binary_file_path, 'rb') as binary_file:
         binary_file.read(2)
         
         #VFX
-        print("vfx")
+        print("vfx's")
         num_vfxs = struct.unpack("<L", binary_file.read(4))[0]
         for _ in range(num_vfxs):
             version = struct.unpack("<H", binary_file.read(2))[0]
@@ -253,6 +256,7 @@ with open(binary_file_path, 'rb') as binary_file:
         binary_file.read(28)
         
         #Light probe
+        print("light probes")
         num_light_probes = struct.unpack("<L", binary_file.read(4))[0]
         for _ in range(num_light_probes):
             binary_file.read(2) #version
@@ -287,6 +291,7 @@ with open(binary_file_path, 'rb') as binary_file:
         
         
         # Terrain hole triangles
+        print("terrain hole triangles")
         num_terrain_holes = struct.unpack("<L", binary_file.read(4))[0]
         for _ in range(num_terrain_holes):
             version = struct.unpack("<H", binary_file.read(2))[0] #version
@@ -394,6 +399,7 @@ with open(binary_file_path, 'rb') as binary_file:
         
         
         #Point Light
+        print("point lights")
         num_point_lights = struct.unpack("<L", binary_file.read(4))[0]
         for _ in range(num_point_lights):
             version = struct.unpack("<H", binary_file.read(2))[0]
@@ -450,6 +456,7 @@ with open(binary_file_path, 'rb') as binary_file:
         
         
         #Polymesh
+        print("polymeshes")
         num_polymesh = struct.unpack("<L", binary_file.read(4))[0]
         for _ in range(num_polymesh):
             version = struct.unpack("<H", binary_file.read(2))[0] #version
@@ -536,6 +543,7 @@ with open(binary_file_path, 'rb') as binary_file:
             
         
         #Spot Light
+        print("spot lights")
         binary_file.read(8)
         num_spot_lights = struct.unpack("<L", binary_file.read(4))[0]
         for _ in range(num_spot_lights):
@@ -599,10 +607,11 @@ with open(binary_file_path, 'rb') as binary_file:
         
         
         #Sound emitters, sfx
+        print("sound emitters")
         num_sfxs = struct.unpack("<L", binary_file.read(4))[0]
         for _ in range(num_sfxs):
-            binary_file.read(2)
-            
+            version = struct.unpack("<H", binary_file.read(2))[0]
+
             sound_length = struct.unpack("<H", binary_file.read(2))[0]
             sound_name = binary_file.read(sound_length).decode('UTF-8')
             
@@ -615,7 +624,6 @@ with open(binary_file_path, 'rb') as binary_file:
                 (x_vert,y_vert,z_vert) = struct.unpack("<fff", binary_file.read(12))
                 coords.append((x_vert,y_vert,z_vert))
                 
-            
             binary_file.read(4)
             radius = struct.unpack("<f", binary_file.read(4))[0]
             binary_file.read(53)
@@ -623,13 +631,19 @@ with open(binary_file_path, 'rb') as binary_file:
             bhm_name_length = struct.unpack("<H", binary_file.read(2))[0]
             bhm_name = binary_file.read(bhm_name_length).decode('UTF-8')
             
-            #special culture mask here? not sure if it's in other things too...
+            #Not sure what this stuff is
+            binary_file.read(4)
+            if (version > 9):
+                binary_file.read(4)
+            
+            #culture mask here?
             culture_mask__ = struct.unpack("<q", binary_file.read(8))[0]
             
-            binary_file.read(32)
+            binary_file.read(24)
             
-            SSSSoundMarker_length = struct.unpack("<H", binary_file.read(2))[0]
-            SSSSoundMarker_name = binary_file.read(SSSSoundMarker_length).decode('UTF-8')
+            if (version > 8):
+                SSSSoundMarker_length = struct.unpack("<H", binary_file.read(2))[0]
+                SSSSoundMarker_name = binary_file.read(SSSSoundMarker_length).decode('UTF-8')
             
             #Write
             xml_file.write("\n\t\t<entity id=\"" + "1" + ''.join(random.choice("01234567890abcdef") for _ in range(14)) + "\">")
@@ -670,6 +684,7 @@ with open(binary_file_path, 'rb') as binary_file:
         
         
         #composite scenes, csc
+        print("csc's")
         num_cscs = struct.unpack("<L", binary_file.read(4))[0]
         for _ in range(num_cscs):
             binary_file.read(2)
