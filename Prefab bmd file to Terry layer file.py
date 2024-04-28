@@ -160,7 +160,9 @@ with open(binary_file_path, 'rb') as binary_file:
             if (version > 19):
                 binary_file.read(1)
             if (version > 21):
-                binary_file.read(2)
+                binary_file.read(1)
+            if (version > 24):
+                binary_file.read(1)
 
             
             #Write
