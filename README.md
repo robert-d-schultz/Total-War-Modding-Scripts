@@ -68,3 +68,19 @@ This is more like a tool kit with four different functions. To use any of this, 
 
 
 Again, this does absolutely nothing for you if you don't know how to use Wwwise. Wwise is still doing all the heavy lifting, this script is like a convenience, especially when keeping-up with game updates that will be changing the vanilla bnks.
+
+
+## generate_tree_file_tob.py and generate_tree_file_wh3.py
+
+Emulates BOB's processing of campaign trees in a .campaign_tree_list file. Doesn't do the best job.
+
+Thrones of Brittania's BOB seems to process trees in a more complex way, ie. no one has figured it out yet, not that anyone has looked very closely. So this script tries to be a substitute for that.
+
+The Warhammer 3 script is rather pointless, trees are processed with ease using BOB. It's just for fun.
+
+
+## merge_or_filter_tree_files.py
+
+I think this works all modern TW games. But there's a function to load a .campaign_tree_list file and a function to filter trees based on a mask image.
+
+You can use it in conjunction with the generate script to preserve vanilla trees, limited where the "not the best job" trees are placed...
