@@ -10,7 +10,7 @@ import numpy as np
 # Adjust these two things
 
 #input file
-binary_file_path = "C:/path/to/bmd/the_bmd_file.bmd"
+binary_file_path = "C:\\Users\\rob\\Desktop\\prefabs\\campaign\\dwarf_minor_2.bmd"
 
 #output file
 xml_filepath = "./output.layer"
@@ -63,7 +63,8 @@ with open(binary_file_path, 'rb') as binary_file:
         xml_file.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<layer version=\"41\">\n\t<entities>")
         #BMD section, recursion in here
         binary_file.read(8) #Fastbin0
-        binary_file.read(40)
+        fastbin_version = struct.unpack("<H", binary_file.read(2))[0]
+        binary_file.read(38)
         num_bmds = struct.unpack("<L", binary_file.read(4))[0]
         for _ in range(num_bmds):
             binary_file.read(2) #version
@@ -154,15 +155,20 @@ with open(binary_file_path, 'rb') as binary_file:
             
             cast_shadow = struct.unpack("<B", binary_file.read(1))[0] == 1
             no_culling = struct.unpack("<B", binary_file.read(1))[0] == 1
-            has_height_patch = struct.unpack("<B", binary_file.read(1))[0] == 1
-            apply_height_patch = struct.unpack("<B", binary_file.read(1))[0] == 1
-            binary_file.read(1)
+            
+            if (version > 15):
+                has_height_patch = struct.unpack("<B", binary_file.read(1))[0] == 1
+                apply_height_patch = struct.unpack("<B", binary_file.read(1))[0] == 1
+            if (version > 18):
+                binary_file.read(1) #include_in_fog
             if (version > 19):
-                binary_file.read(1)
-            if (version > 21):
-                binary_file.read(1)
+                binary_file.read(1) #visible_without_shroud
+            if (version == 21):
+                binary_file.read(1) #weird thing that's only there for 21/22
+            if (version > 23):
+                binary_file.read(1) #use_dynamic_shadows
             if (version > 24):
-                binary_file.read(1)
+                binary_file.read(1) #uses_terrain_vertex_offset
 
             
             #Write
@@ -233,7 +239,10 @@ with open(binary_file_path, 'rb') as binary_file:
             bhm_name = binary_file.read(bhm_name_length).decode('UTF-8')
             binary_file.read(9)
             visible_in_shroud = struct.unpack("<B", binary_file.read(1))[0] == 1
-            binary_file.read(4)
+            
+            if (version > 7):
+                binary_file.read(4) #parent_id
+            
             visible_in_shroud_only = False
             if (version > 9):
                 visible_in_shroud_only = struct.unpack("<B", binary_file.read(1))[0] == 0
