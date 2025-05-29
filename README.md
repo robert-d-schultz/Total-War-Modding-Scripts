@@ -20,6 +20,9 @@ Input a campaign's global_props.bin, it will output a bunch of xml Terry layers,
 Put the xml layers in your Terry project's folder, and then copy+paste the stuff in terry_file_update.txt into your project's .terry file.
 This might be missing a few things, but whatever is missing is very hard to notice when in-game.
 
+### 3K global_props bin file to Terry layers.py ####
+The 3K version that is not as nice.
+
 
 ## battle catchment map to png.py 
 
